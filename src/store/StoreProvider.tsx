@@ -66,6 +66,9 @@ function useStoreValue() {
   const now = useMemo(() => new Date(realNow + state.dev.clockOffsetMs), [realNow, state.dev.clockOffsetMs]);
 
   // The "cron": expire holds, mark no-shows and move listing statuses along with the clock.
+  // Screens read the refreshed db in the same render the clock moves, so they never show a
+  // stale status; the effect then stores it.
+  const db = useMemo(() => logic.refresh(state.db, now), [state.db, now]);
   useEffect(() => {
     const refreshed = logic.refresh(stateRef.current.db, now);
     if (refreshed !== stateRef.current.db) commitDb(refreshed);
@@ -115,10 +118,12 @@ function useStoreValue() {
       setClock(hhmm: string | null) {
         const clockOffsetMs = hhmm === null ? 0 : offsetTo(hhmm);
         commit({ ...stateRef.current, dev: { ...stateRef.current.dev, clockOffsetMs } });
+        setRealNow(Date.now());
       },
       advanceClock(minutes: number) {
         const dev = stateRef.current.dev;
         commit({ ...stateRef.current, dev: { ...dev, clockOffsetMs: dev.clockOffsetMs + minutes * 60_000 } });
+        setRealNow(Date.now());
       },
       setForcePaymentPending(forcePaymentPending: boolean) {
         commit({ ...stateRef.current, dev: { ...stateRef.current.dev, forcePaymentPending } });
@@ -126,16 +131,17 @@ function useStoreValue() {
       /** Fresh seed and clock back to 15:00; keeps the current role. */
       resetDemo() {
         commit(freshState(stateRef.current.session));
+        setRealNow(Date.now());
       },
     };
   }, [commit, commitDb, currentNow]);
 
-  const currentUser: User | null = state.session ? (state.db.users.find((u) => u.id === state.session?.userId) ?? null) : null;
-  const ownRestaurant: Restaurant | null = state.db.restaurants.find((r) => r.ownerId === DEMO_OWNER_ID) ?? null;
+  const currentUser: User | null = state.session ? (db.users.find((u) => u.id === state.session?.userId) ?? null) : null;
+  const ownRestaurant: Restaurant | null = db.restaurants.find((r) => r.ownerId === DEMO_OWNER_ID) ?? null;
   /** Read the latest dev flags inside timers (e.g. the fake payment delay). */
   const readDev = useCallback(() => stateRef.current.dev, []);
 
-  return { db: state.db, now, session: state.session, dev: state.dev, currentUser, ownRestaurant, actions, readDev };
+  return { db, now, session: state.session, dev: state.dev, currentUser, ownRestaurant, actions, readDev };
 }
 
 export type Store = ReturnType<typeof useStoreValue>;

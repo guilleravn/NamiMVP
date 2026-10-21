@@ -48,6 +48,8 @@ export const semantic = {
   'color-status-low-bg': primitive.amber100,
   'color-status-out-fg': primitive.stone700,
   'color-status-out-bg': primitive.stone150,
+  /** Dims the page behind a modal (text color at 55%). */
+  'color-scrim': 'rgba(31, 26, 21, 0.55)',
 };
 
 /** Spacing on a 4 px scale (key × 4 px). 11 = 44 px, the minimum touch target. */

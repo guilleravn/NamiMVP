@@ -20,6 +20,7 @@ const config: Config = {
       'action-soft': t['color-action-soft'],
       inverse: t['color-text'],
       success: t['color-success'],
+      scrim: t['color-scrim'],
       'status-fresh': t['color-status-fresh-bg'],
       'status-low': t['color-status-low-bg'],
       'status-out': t['color-status-out-bg'],

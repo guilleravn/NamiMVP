@@ -44,28 +44,28 @@ export function Stats() {
         Platos rescatados por día
       </h2>
       <div className="overflow-hidden rounded-lg border bg-surface">
-      <table aria-labelledby="per-day" className="w-full text-left">
-        <thead>
-          <tr className="border-b text-xs uppercase tracking-wide text-secondary">
-            <th scope="col" className="px-4 py-2 font-bold">
-              Día
-            </th>
-            <th scope="col" className="px-4 py-2 text-right font-bold">
-              Rescatados
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {stats.days.map(({ day, rescued }) => (
-            <tr key={day.toISOString()} className="border-b last:border-b-0">
-              <th scope="row" className="px-4 py-2 font-semibold capitalize">
-                {relativeDay({ iso: day.toISOString(), now })}
+        <table aria-labelledby="per-day" className="w-full text-left">
+          <thead>
+            <tr className="border-b text-xs uppercase tracking-wide text-secondary">
+              <th scope="col" className="px-4 py-2 font-bold">
+                Día
               </th>
-              <td className="num px-4 py-2 text-right font-bold">{rescued}</td>
+              <th scope="col" className="px-4 py-2 text-right font-bold">
+                Rescatados
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {stats.days.map(({ day, rescued }) => (
+              <tr key={day.toISOString()} className="border-b last:border-b-0">
+                <th scope="row" className="px-4 py-2 font-semibold capitalize">
+                  {relativeDay({ iso: day.toISOString(), now })}
+                </th>
+                <td className="num px-4 py-2 text-right font-bold">{rescued}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </>
   );

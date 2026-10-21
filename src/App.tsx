@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { DevBar } from './components/DevMenu';
 import { BuyerLayout } from './routes/buyer/BuyerLayout';
 import { Home } from './routes/buyer/Home';
 import { ListingDetail } from './routes/buyer/ListingDetail';
@@ -19,6 +20,7 @@ export function App() {
   return (
     <BrowserRouter>
       <StoreProvider>
+        <DevBar />
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/buyer" element={<BuyerLayout />}>
