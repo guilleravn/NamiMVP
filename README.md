@@ -23,9 +23,12 @@ npm run dev        # http://localhost:5173
 | `npm test` | Unit tests for the store (Vitest) |
 | `npm run typecheck` | `tsc --noEmit` |
 
-### Deploy (Vercel)
+### Deploy
 
-Import the repo in Vercel; it detects Vite (build `npm run build`, output `dist`). [`vercel.json`](vercel.json) rewrites every path to `index.html` so deep links such as `/buyer/orders` work on reload.
+It's a static site: `npm run build` produces `dist/`. Every path must fall back to `index.html` so deep links such as `/buyer/orders` work on reload.
+
+- **Netlify:** import the repo. [`netlify.toml`](netlify.toml) sets the build command, the `dist` folder and Node 22. [`public/_redirects`](public/_redirects) handles the fallback, and it also works if you drag the `dist/` folder onto Netlify Drop.
+- **Vercel:** import the repo. [`vercel.json`](vercel.json) handles the fallback.
 
 ## Demo flows
 
