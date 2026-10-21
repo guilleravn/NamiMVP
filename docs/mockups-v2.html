@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ñami Mockups v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ============ 1. PRIMITIVES (valores crudos) ============ */
+  :root {
+    --orange-800: #9a3a09;
+    --orange-700: #b8460b;
+    --orange-50:  #fff3ea;
+    --green-800:  #237032;
+    --green-50:   #e9f7ec;
+    --amber-900:  #6b4a00;
+    --amber-100:  #fff1c2;
+    --stone-900:  #1f1a15;
+    --stone-700:  #4a4038;
+    --stone-600:  #6b5e51;
+    --stone-500:  #8c7f72;
+    --stone-200:  #e8dfd4;
+    --stone-100:  #f3ede6;
+    --stone-150:  #efe9e2;
+    --cream-50:   #fbf8f4;
+    --white:      #ffffff;
+
+    /* spacing: escala de 4px */
+    --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px;
+    /* tipografía: 5 pasos */
+    --text-xs: 12px; --text-sm: 14px; --text-md: 16px; --text-lg: 20px; --text-xl: 28px;
+    --radius-sm: 8px; --radius-md: 12px; --radius-lg: 16px; --radius-pill: 999px;
+    --target: 44px;
+  }
+
+  /* ============ 2. SEMANTIC (por rol, apuntan a primitives) ============ */
+  :root {
+    --color-bg: var(--cream-50);
+    --color-surface: var(--white);
+    --color-surface-muted: var(--stone-100);
+    --color-text: var(--stone-900);
+    --color-text-secondary: var(--stone-600);
+    --color-border: var(--stone-200);
+    --color-border-input: var(--stone-500);
+    --color-action: var(--orange-700);
+    --color-action-hover: var(--orange-800);
+    --color-on-action: var(--white);
+    --color-action-soft: var(--orange-50);
+    --color-status-fresh-fg: var(--green-800);
+    --color-status-fresh-bg: var(--green-50);
+    --color-status-low-fg: var(--amber-900);
+    --color-status-low-bg: var(--amber-100);
+    --color-status-out-fg: var(--stone-700);
+    --color-status-out-bg: var(--stone-150);
+    --color-success: var(--green-800);
+    --color-focus: var(--orange-700);
+
+    /* página que envuelve los mockups (no es la app) */
+    --page-bg: #f1ebe3;
+    --page-ink: #1f1a15;
+    --page-muted: #5e5246;
+    --page-line: #ddd2c4;
+    --page-card: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page-bg: #15120f; --page-ink: #f3ebe1; --page-muted: #b9ab9a; --page-line: #352c24; --page-card: #1f1a15;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page-bg: #15120f; --page-ink: #f3ebe1; --page-muted: #b9ab9a; --page-line: #352c24; --page-card: #1f1a15;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Figtree", system-ui, sans-serif; background: var(--page-bg); color: var(--page-ink); padding: var(--space-8) var(--space-4) 64px; }
+  .wrap { max-width: 1240px; margin: 0 auto; }
+  :focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; }
+
+  /* ---------- page header ---------- */
+  .top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-6); }
+  .brand { font-family: "Fraunces", serif; font-weight: 700; font-size: 44px; letter-spacing: -1px; color: var(--color-action); line-height: 1; }
+  .brand small { display: block; font-family: "Figtree", sans-serif; font-size: var(--text-sm); color: var(--page-muted); font-weight: 600; letter-spacing: 0; margin-top: var(--space-2); }
+  .modes { display: inline-flex; background: var(--page-card); border: 1px solid var(--page-line); border-radius: var(--radius-pill); padding: var(--space-1); }
+  .modes button { min-height: var(--target); padding: 0 var(--space-4); border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--page-muted); font: 700 var(--text-sm) "Figtree", sans-serif; cursor: pointer; }
+  .modes button[aria-pressed="true"] { background: var(--page-ink); color: var(--page-bg); }
+
+  /* ---------- gallery ---------- */
+  .group-t { font-size: var(--text-lg); font-weight: 800; margin: var(--space-6) 0 var(--space-1); }
+  .group-s { color: var(--page-muted); font-size: var(--text-sm); margin-bottom: var(--space-4); }
+  .gallery { display: flex; flex-wrap: wrap; gap: var(--space-6); }
+  .shot { width: 320px; max-width: 100%; }
+  .shot .label { font-size: var(--text-xs); font-weight: 800; text-transform: uppercase; letter-spacing: .8px; color: var(--page-muted); margin-bottom: var(--space-2); }
+  .note { margin-top: var(--space-3); background: var(--page-card); border: 1px solid var(--page-line); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); font-size: var(--text-sm); line-height: 1.5; }
+  .note h4 { font-size: var(--text-sm); font-weight: 800; margin-bottom: var(--space-1); }
+  .note p { color: var(--page-muted); }
+  .note .ev, .note .ux { display: block; margin-top: var(--space-2); }
+  .note .ev b, .note .ux b { color: var(--page-ink); }
+
+  /* walkthrough mode */
+  body.walk .group-t, body.walk .group-s, body.walk .states-table { display: none; }
+  body.walk .gallery { display: block; }
+  body.walk .shot { display: none; width: auto; }
+  body.walk .shot.active { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: var(--space-8); align-items: start; }
+  body.walk .shot.active .label { grid-column: 1 / -1; font-size: var(--text-sm); }
+  body.walk .note { margin-top: 0; font-size: var(--text-md); padding: var(--space-6); }
+  body.walk .note h4 { font-size: var(--text-lg); }
+  .walkbar { display: none; align-items: center; gap: var(--space-3); margin: var(--space-6) 0 0; }
+  body.walk .walkbar { display: flex; }
+  .walkbar button { min-width: var(--target); min-height: var(--target); border-radius: var(--radius-pill); border: 1px solid var(--page-line); background: var(--page-card); color: var(--page-ink); font: 800 var(--text-md) "Figtree", sans-serif; cursor: pointer; padding: 0 var(--space-4); }
+  .walkbar .count { font-weight: 700; color: var(--page-muted); font-size: var(--text-sm); }
+  @media (max-width: 760px) { body.walk .shot.active { grid-template-columns: 1fr; } }
+
+  /* ---------- phone ---------- */
+  .phone { width: 320px; max-width: 100%; height: 740px; border-radius: 44px; background: #0f0d0b; padding: 10px; box-shadow: 0 16px 40px rgba(40, 25, 10, .18); transition: box-shadow .25s; }
+  body.walk .phone { width: 360px; height: 740px; }
+  .phone.pulse { box-shadow: 0 0 0 4px var(--color-action), 0 16px 40px rgba(40, 25, 10, .25); }
+  .scr { position: relative; height: 100%; border-radius: 35px; overflow: hidden; background: var(--color-bg); color: var(--color-text); display: flex; flex-direction: column; font-size: var(--text-sm); }
+  .notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 96px; height: 24px; background: #0f0d0b; border-radius: 0 0 var(--space-4) var(--space-4); }
+  .status { height: 36px; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; padding: 0 var(--space-6); font-size: var(--text-xs); font-weight: 700; }
+  .body { flex: 1; overflow-y: auto; padding: 0 var(--space-4) var(--space-4); scrollbar-width: none; }
+  .body::-webkit-scrollbar { display: none; }
+  .foot { flex-shrink: 0; padding: var(--space-3) var(--space-4) var(--space-4); background: var(--color-bg); border-top: 1px solid var(--color-border); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- app components ---------- */
+  .appbar { display: flex; align-items: center; justify-content: space-between; padding: var(--space-2) 0 var(--space-3); }
+  .logo { font-family: "Fraunces", serif; font-weight: 700; font-size: var(--text-xl); color: var(--color-action); letter-spacing: -.5px; line-height: 1; }
+  .where { text-align: right; font-size: var(--text-xs); color: var(--color-text-secondary); line-height: 1.3; }
+  .where b { display: block; color: var(--color-text); font-size: var(--text-sm); }
+  .h1 { font-size: var(--text-lg); font-weight: 800; line-height: 1.25; margin-bottom: var(--space-1); }
+  .sub { color: var(--color-text-secondary); margin-bottom: var(--space-4); line-height: 1.4; }
+
+  .chips { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); }
+  .chip { min-height: var(--target); padding: 0 var(--space-4); display: inline-flex; align-items: center; border-radius: var(--radius-pill); border: 1px solid var(--color-border-input); background: var(--color-surface); font-weight: 700; color: var(--color-text); white-space: nowrap; }
+  .chip[aria-pressed="true"] { background: var(--color-text); color: var(--color-surface); border-color: var(--color-text); }
+
+  .badge { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--text-xs); font-weight: 700; padding: var(--space-1) var(--space-2); border-radius: var(--radius-pill); line-height: 1.3; }
+  .badge svg { width: 12px; height: 12px; }
+  .b-fresh { background: var(--color-status-fresh-bg); color: var(--color-status-fresh-fg); }
+  .b-low { background: var(--color-status-low-bg); color: var(--color-status-low-fg); }
+  .b-out { background: var(--color-status-out-bg); color: var(--color-status-out-fg); }
+  .b-new { background: var(--color-surface-muted); color: var(--color-text-secondary); }
+
+  .card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-3); margin-bottom: var(--space-3); display: grid; grid-template-columns: 72px 1fr; gap: var(--space-3); }
+  .thumb { width: 72px; height: 72px; border-radius: var(--radius-md); display: grid; place-items: center; font-size: 36px; background: var(--color-surface-muted); }
+  .card .top-row { display: flex; justify-content: space-between; gap: var(--space-2); align-items: flex-start; }
+  .card .name { font-size: var(--text-md); font-weight: 800; line-height: 1.25; }
+  .card .rest { color: var(--color-text-secondary); font-size: var(--text-xs); margin-top: 2px; line-height: 1.4; }
+  .price { text-align: right; line-height: 1.1; white-space: nowrap; }
+  .price b { display: block; font-size: var(--text-lg); font-weight: 800; }
+  .price s { font-size: var(--text-xs); color: var(--color-text-secondary); }
+  .badges { display: flex; flex-wrap: wrap; gap: var(--space-1); margin: var(--space-2) 0; }
+  .card .row2 { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+  .when { font-size: var(--text-xs); color: var(--color-text-secondary); line-height: 1.35; }
+  .when b { color: var(--color-text); }
+  .card.out { background: var(--color-surface-muted); }
+  .card.out .thumb { filter: grayscale(1); opacity: .6; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: var(--target); padding: 0 var(--space-4); border-radius: var(--radius-md); border: 0; font: 800 var(--text-sm) "Figtree", sans-serif; cursor: pointer; background: var(--color-action); color: var(--color-on-action); }
+  .btn:hover { background: var(--color-action-hover); }
+  .btn.block { width: 100%; font-size: var(--text-md); min-height: 52px; }
+  .btn.secondary { background: var(--color-surface); color: var(--color-action); border: 2px solid var(--color-action); }
+  .btn.secondary:hover { background: var(--color-action-soft); }
+  .btn.ghost { background: transparent; color: var(--color-text-secondary); }
+  .btn[disabled] { background: var(--color-status-out-bg); color: var(--color-status-out-fg); cursor: not-allowed; }
+  .btn.ok { background: var(--color-status-fresh-bg); color: var(--color-success); }
+
+  .tabbar { flex-shrink: 0; height: 64px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--color-border); background: var(--color-surface); }
+  .tabbar div { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: var(--text-xs); font-weight: 700; color: var(--color-text-secondary); }
+  .tabbar svg { width: 22px; height: 22px; }
+  .tabbar .on { color: var(--color-action); }
+
+  .back { display: inline-flex; align-items: center; justify-content: center; width: var(--target); height: var(--target); border-radius: 50%; background: var(--color-surface); border: 1px solid var(--color-border); cursor: pointer; margin: var(--space-1) 0 var(--space-3); }
+  .back svg { width: 20px; height: 20px; }
+  .thumb img, .hero img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: inherit; }
+  .thumb, .hero { overflow: hidden; }
+  .hero img { object-position: 50% 100%; }
+  .hero { height: 132px; border-radius: var(--radius-lg); background: var(--color-surface-muted); display: grid; place-items: center; font-size: 72px; margin-bottom: var(--space-4); position: relative; }
+  .hero .badge { position: absolute; left: var(--space-3); top: var(--space-3); }
+  .title-row { display: flex; justify-content: space-between; gap: var(--space-3); align-items: flex-start; margin-bottom: var(--space-1); }
+  .title-row h2 { font-size: var(--text-lg); font-weight: 800; line-height: 1.2; }
+  .meta { color: var(--color-text-secondary); margin-bottom: var(--space-4); display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3); }
+  .meta b { color: var(--color-text); }
+  .facts { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); margin-bottom: var(--space-4); }
+  .fact { display: flex; gap: var(--space-3); align-items: center; padding: var(--space-3); border-bottom: 1px solid var(--color-border); }
+  .fact:last-child { border-bottom: 0; }
+  .fact svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--color-text-secondary); }
+  .fact small { display: block; color: var(--color-text-secondary); font-size: var(--text-xs); }
+  .fact b { font-weight: 700; }
+  .fact.fresh svg, .fact.fresh b { color: var(--color-status-fresh-fg); }
+  .p { color: var(--color-text-secondary); line-height: 1.5; margin-bottom: var(--space-4); }
+  .stepper { display: flex; justify-content: space-between; align-items: center; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-1) var(--space-1) var(--space-1) var(--space-4); font-weight: 700; }
+  .stepper .ctrl { display: flex; align-items: center; gap: var(--space-2); }
+  .stepper button { width: var(--target); height: var(--target); border-radius: var(--radius-sm); border: 1px solid var(--color-border-input); background: var(--color-surface); font: 800 var(--text-lg) "Figtree", sans-serif; color: var(--color-text); cursor: pointer; }
+  .stepper span { min-width: 24px; text-align: center; }
+
+  .center { text-align: center; }
+  .qr { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-4); text-align: center; margin-bottom: var(--space-3); }
+  .qr svg { width: 176px; height: 176px; display: block; margin: 0 auto var(--space-3); }
+  .amount { font-size: var(--text-xl); font-weight: 800; }
+  .hold { display: flex; align-items: center; gap: var(--space-2); background: var(--color-status-low-bg); color: var(--color-status-low-fg); border-radius: var(--radius-md); padding: var(--space-3); font-weight: 700; margin-bottom: var(--space-3); }
+  .hold svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .steps { color: var(--color-text-secondary); padding-left: var(--space-4); line-height: 1.6; }
+
+  .done-ic { width: 56px; height: 56px; border-radius: 50%; background: var(--color-status-fresh-bg); color: var(--color-success); display: grid; place-items: center; margin: var(--space-2) auto var(--space-3); }
+  .done-ic svg { width: 28px; height: 28px; }
+  .code { background: var(--color-surface); border: 2px dashed var(--color-action); border-radius: var(--radius-lg); padding: var(--space-4); text-align: center; margin: var(--space-4) 0; }
+  .code small { color: var(--color-text-secondary); font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .6px; }
+  .code b { display: block; font-size: var(--text-xl); letter-spacing: 3px; color: var(--color-text); }
+
+  .rate { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-2); margin: var(--space-3) 0 var(--space-4); }
+  .rate button { min-height: 52px; border-radius: var(--radius-md); border: 1px solid var(--color-border-input); background: var(--color-surface); font: 800 var(--text-md) "Figtree", sans-serif; color: var(--color-text); cursor: pointer; }
+  .rate button[aria-pressed="true"] { background: var(--color-text); color: var(--color-surface); border-color: var(--color-text); }
+  .rate-legend { display: flex; justify-content: space-between; color: var(--color-text-secondary); font-size: var(--text-xs); margin-top: calc(-1 * var(--space-2)); margin-bottom: var(--space-4); }
+  .tags { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+  .empty { text-align: center; padding: var(--space-6) var(--space-2); }
+  .empty .ill { font-size: 56px; margin-bottom: var(--space-3); }
+  .toggle { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); text-align: left; margin-top: var(--space-4); }
+  .switch { width: 52px; height: 32px; border-radius: var(--radius-pill); background: var(--color-success); position: relative; flex-shrink: 0; }
+  .switch::after { content: ""; position: absolute; top: 4px; right: 4px; width: 24px; height: 24px; border-radius: 50%; background: var(--white); }
+
+  .alert { display: flex; gap: var(--space-3); background: var(--color-status-low-bg); color: var(--color-status-low-fg); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); margin-bottom: var(--space-4); line-height: 1.45; }
+  .alert svg { width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px; }
+
+  /* restaurant */
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-1); background: var(--color-surface-muted); border-radius: var(--radius-md); padding: var(--space-1); margin-bottom: var(--space-4); }
+  .seg button { min-height: var(--target); border: 0; border-radius: var(--radius-sm); background: transparent; font: 700 var(--text-sm) "Figtree", sans-serif; color: var(--color-text-secondary); cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--color-surface); color: var(--color-text); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+  .field { margin-bottom: var(--space-3); }
+  .field label { display: block; font-size: var(--text-xs); font-weight: 700; color: var(--color-text-secondary); margin-bottom: var(--space-1); }
+  .input { min-height: var(--target); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--space-3); border: 1px solid var(--color-border-input); border-radius: var(--radius-md); background: var(--color-surface); font-weight: 600; }
+  .input .hint { font-size: var(--text-xs); color: var(--color-status-fresh-fg); font-weight: 700; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+  .protect { display: flex; gap: var(--space-2); background: var(--color-status-fresh-bg); color: var(--color-status-fresh-fg); border-radius: var(--radius-md); padding: var(--space-3); line-height: 1.45; font-size: var(--text-xs); font-weight: 600; }
+  .protect svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+  .kpi { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-4); margin-bottom: var(--space-4); }
+  .kpi small { color: var(--color-text-secondary); font-weight: 600; }
+  .kpi b { display: block; font-size: var(--text-xl); font-weight: 800; color: var(--color-success); margin: var(--space-1) 0; }
+  .kpi .split { display: flex; gap: var(--space-4); color: var(--color-text-secondary); font-size: var(--text-xs); }
+  .kpi .split b { display: inline; font-size: var(--text-xs); color: var(--color-text); margin: 0; }
+  .sec { display: flex; justify-content: space-between; align-items: baseline; font-weight: 800; margin: var(--space-2) 0 var(--space-2); }
+  .sec span { font-weight: 600; font-size: var(--text-xs); color: var(--color-text-secondary); }
+  .res { display: flex; justify-content: space-between; align-items: center; gap: var(--space-2); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3); margin-bottom: var(--space-2); }
+  .res b { letter-spacing: 1px; }
+  .res small { display: block; color: var(--color-text-secondary); font-size: var(--text-xs); }
+
+  /* states table */
+  .states-table { margin-top: var(--space-8); background: var(--page-card); border: 1px solid var(--page-line); border-radius: var(--radius-lg); padding: var(--space-4); overflow-x: auto; }
+  .states-table h3 { font-size: var(--text-lg); margin-bottom: var(--space-1); }
+  .states-table p { color: var(--page-muted); font-size: var(--text-sm); margin-bottom: var(--space-3); }
+  table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); min-width: 560px; }
+  th, td { text-align: left; padding: var(--space-2) var(--space-3); border-bottom: 1px solid var(--page-line); vertical-align: top; }
+  th { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: .6px; color: var(--page-muted); }
+  td code { font-size: var(--text-xs); background: var(--page-bg); padding: 2px var(--space-1); border-radius: 4px; }
+  footer { margin-top: var(--space-6); color: var(--page-muted); font-size: var(--text-xs); line-height: 1.6; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></symbol>
+    <symbol id="i-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-5 1-8.5z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5 8 12l7 7"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h16v12H4zM3 4h18v4H3zM10 12h4"/></symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">ñami<small>Mockups v2 · rediseño aplicando el audit de Design Week (Vello)</small></div>
+    <div class="modes" role="group" aria-label="Forma de ver">
+      <button type="button" id="m-walk" aria-pressed="true">Recorrido paso a paso</button>
+      <button type="button" id="m-grid" aria-pressed="false">Todas las pantallas</button>
+    </div>
+  </header>
+
+  <div class="walkbar" aria-label="Navegación del recorrido">
+    <button type="button" id="prev" aria-label="Pantalla anterior">←</button>
+    <button type="button" id="next" aria-label="Pantalla siguiente">→</button>
+    <span class="count" id="count"></span>
+    <span class="count">· también con las flechas del teclado</span>
+  </div>
+
+  <!-- ======================= COMPRADOR ======================= -->
+  <h2 class="group-t">Comprador</h2>
+  <p class="group-s">Encontrar un plato, reservarlo, pagar con QR, retirarlo y calificarlo.</p>
+  <div class="gallery">
+
+    <!-- 1 Inicio -->
+    <section class="shot" data-step="1" id="inicio">
+      <div class="label">1 · Inicio</div>
+      <div class="phone"><div class="scr">
+        <div class="notch"></div>
+        <div class="status"><span class="num">14:42</span><span>5G ▮▮▮</span></div>
+        <div class="body">
+          <div class="appbar">
+            <div class="logo">ñami</div>
+            <div class="where">Retiras cerca de<b>UCB Cochabamba</b></div>
+          </div>
+          <div class="chips">
+            <span class="chip" aria-pressed="true">Todo</span>
+            <span class="chip" aria-pressed="false">Platos</span>
+            <span class="chip" aria-pressed="false">Bolsas</span>
+          </div>
+
+          <article class="card" aria-label="Silpancho, Sabor Valluno, 14 bolivianos, hecho hoy 12:30, quedan 3, retiro 15:00 a 16:30">
+            <div class="thumb"><img src="img/silpancho.jpg" alt=""></div>
+            <div>
+              <div class="top-row">
+                <div><div class="name">Silpancho</div><div class="rest">Sabor Valluno · ★ 4.8 · 300 m</div></div>
+                <div class="price num"><b>Bs 14</b><s>Bs 35</s></div>
+              </div>
+              <div class="badges">
+                <span class="badge b-fresh"><svg><use href="#i-flame"/></svg>Hecho hoy 12:30</span>
+                <span class="badge b-low">Quedan 3</span>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="when">Retira hoy<br><b class="num">15:00 – 16:30</b></div>
+              <button class="btn" data-go="detalle">Reservar</button>
+            </div>
+          </article>
+
+          <article class="card" aria-label="Bolsa de panadería, La Espiga, 10 bolivianos, restaurante nuevo sin calificaciones">
+            <div class="thumb"><img src="img/pan.jpg" alt=""></div>
+            <div>
+              <div class="top-row">
+                <div><div class="name">Bolsa de panadería</div><div class="rest">La Espiga · 450 m</div></div>
+                <div class="price num"><b>Bs 10</b><s>~Bs 30</s></div>
+              </div>
+              <div class="badges">
+                <span class="badge b-fresh"><svg><use href="#i-flame"/></svg>Horneado hoy 07:00</span>
+                <span class="badge b-new">Nuevo · sin calificaciones</span>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="when">Retira hoy<br><b class="num">19:00 – 20:00</b></div>
+              <button class="btn" data-go="detalle">Reservar</button>
+            </div>
+          </article>
+
+          <article class="card out" aria-label="Pique macho, El Rincón Cochala, agotado">
+            <div class="thumb"><img src="img/pique.jpg" alt=""></div>
+            <div>
+              <div class="top-row">
+                <div><div class="name">Pique macho</div><div class="rest">El Rincón Cochala · ★ 4.6 · 600 m</div></div>
+                <div class="price num"><b>Bs 16</b><s>Bs 40</s></div>
+              </div>
+              <div class="badges"><span class="badge b-out">Agotado hoy</span></div>
+            </div>
+            <div class="row2">
+              <div class="when">Este local suele publicar<br><b class="num">15:00 – 16:00</b></div>
+              <button class="btn secondary">Avisarme</button>
+            </div>
+          </article>
+        </div>
+        <nav class="tabbar" aria-label="Navegación principal">
+          <div class="on"><svg><use href="#i-home"/></svg>Inicio</div>
+          <div><svg><use href="#i-map"/></svg>Mapa</div>
+          <div><svg><use href="#i-bag"/></svg>Pedidos</div>
+          <div><svg><use href="#i-user"/></svg>Perfil</div>
+        </nav>
+      </div></div>
+      <div class="note">
+        <h4>Cada tarjeta dice qué es, cuándo se hizo y qué hacer</h4>
+        <p>Botón <b>Reservar</b> visible en cada tarjeta; el precio es lo más grande a la derecha; la calificación va junto al nombre del local.</p>
+        <span class="ev"><b>Evidencia:</b> a 7 de 23 les preocupa la frescura → "Hecho hoy 12:30" en verde. Formato dividido 5 a 4 → filtro Platos / Bolsas.</span>
+        <span class="ux"><b>Lección de Vello:</b> faltaba un botón Book visible (hallazgo crítico). Los estados también se muestran: "Agotado" explícito (no desaparece) y "Nuevo · sin calificaciones" en vez de estrellas vacías.</span>
+      </div>
+    </section>
+
+    <!-- 2 Detalle -->
+    <section class="shot" data-step="2" id="detalle">
+      <div class="label">2 · Detalle del plato</div>
+      <div class="phone"><div class="scr">
+        <div class="notch"></div>
+        <div class="status"><span class="num">14:43</span><span>5G ▮▮▮</span></div>
+        <div class="body">
+          <button class="back" aria-label="Volver" data-go="inicio"><svg><use href="#i-back"/></svg></button>
+          <div class="hero"><img src="img/silpancho.jpg" alt="Silpancho"><span class="badge b-fresh"><svg><use href="#i-flame"/></svg>Hecho hoy 12:30</span></div>
+          <div class="title-row">
+            <h2>Silpancho</h2>
+            <div class="price num"><b>Bs 14</b><s>Bs 35</s></div>
+          </div>
+          <div class="meta"><span><b>Sabor Valluno</b></span><span>★ 4.8 frescura (46)</span></div>
+          <div class="facts">
+            <div class="fact fresh"><svg><use href="#i-flame"/></svg><div><small>Preparado</small><b class="num">Hoy a las 12:30</b></div></div>
+            <div class="fact"><svg><use href="#i-clock"/></svg><div><small>Retiro</small><b class="num">Hoy 15:00 – 16:30</b></div></div>
+            <div class="fact"><svg><use href="#i-pin"/></svg><div><small>Dónde</small><b>300 m de la UCB · 4 min a pie</b></div></div>
+            <div class="fact"><svg><use href="#i-box"/></svg><div><small>Quedan</small><b class="num">3 porciones</b></div></div>
+          </div>
+          <p class="p">El mismo silpancho del almuerzo de hoy: arroz, papa, carne apanada, huevo y ensalada. Se entrega en envase para llevar.</p>
+          <div class="stepper"><span>Cantidad</span><div class="ctrl"><button aria-label="Quitar uno">−</button><span class="num">1</span><button aria-label="Agregar uno">+</button></div></div>
+        </div>
+        <div class="foot"><button class="btn block" data-go="pago">Reservar · <span class="num">Bs 14</span></button></div>
+      </div></div>
+      <div class="note">
+        <h4>Todo lo que necesitas saber antes de pagar, en una lista</h4>
+        <p>Hora de preparación primero y en verde; retiro, distancia y porciones como filas fáciles de leer. Un solo botón principal abajo.</p>
+        <span class="ev"><b>Evidencia:</b> la frescura es el miedo principal del comprador (7 de 23); el horario solo preocupa a 2 de 23, así que va segundo.</span>
+        <span class="ux"><b>Lección de Vello:</b> jerarquía visual (lo importante más grande y arriba) y proximidad (precio pegado al nombre del plato). Botones de 44 px para el dedo.</span>
+      </div>
+    </section>
+
+    <!-- 3 Pago -->
+    <section class="shot" data-step="3" id="pago">
+      <div class="label">3 · Pago con QR</div>
+      <div class="phone"><div class="scr">
+        <div class="notch"></div>
+        <div class="status"><span class="num">14:44</span><span>5G ▮▮▮</span></div>
+        <div class="body">
+          <button class="back" aria-label="Volver" data-go="detalle"><svg><use href="#i-back"/></svg></button>
+          <div class="h1">Paga con QR</div>
+          <p class="sub">Silpancho × 1 · Sabor Valluno</p>
+          <div class="hold"><svg><use href="#i-clock"/></svg><span>Tu porción está apartada por <span class="num">09:42</span> min</span></div>
+          <div class="qr">
+            <svg id="qr" viewBox="0 0 29 29" shape-rendering="crispEdges" role="img" aria-label="Código QR de pago"></svg>
+            <div class="amount num">Bs 14,00</div>
+          </div>
+          <ol class="steps">
+            <li>Abre la app de tu banco o billetera</li>
+            <li>Escanea el QR (QR Simple, cualquier banco)</li>
+            <li>Vuelve aquí y toca "Ya pagué"</li>
+          </ol>
+        </div>
+        <div class="foot"><button class="btn block" data-go="codigo">Ya pagué</button></div>
+      </div></div>
+      <div class="note">
+        <h4>Pagar como ya pagan todos: con QR</h4>
+        <p>El tiempo de reserva se muestra arriba, en ámbar (aviso), no en rojo (error). Los pasos van numerados porque es un proceso en orden.</p>
+        <span class="ev"><b>Evidencia:</b> el QR fue el 94% de las operaciones de pago electrónico en Bolivia en 2025.</span>
+        <span class="ux"><b>Lección de Vello:</b> el color de un estado tiene que coincidir con lo que significa. Un aviso no puede usar el color de error ni el de la marca.</span>
+      </div>
+    </section>
+
+    <!-- 4 Codigo -->
+    <section class="shot" data-step="4" id="codigo">
+      <div class="label">4 · Código de retiro</div>
+      <div class="phone"><div class="scr">
+        <div class="notch"></div>
+        <div class="status"><span class="num">14:45</span><span>5G ▮▮▮</span></div>
+        <div class="body">
+          <div class="done-ic"><svg><use href="#i-check"/></svg></div>
+          <div class="h1 center">Pago confirmado</div>
+          <p class="sub center">Muestra este código cuando retires</p>
+          <div class="code"><small>Código de retiro</small><b class="num">ÑAM-4827</b></div>
+          <div class="facts">
+            <div class="fact"><svg><use href="#i-clock"/></svg><div><small>Retira hoy</small><b class="num">15:00 – 16:30</b></div></div>
+            <div class="fact"><svg><use href="#i-pin"/></svg><div><small>Sabor Valluno</small><b>300 m de la UCB · Ver en mapa</b></div></div>
+          </div>
+          <p class="sub center">Te avisamos 15 minutos antes.</p>
+        </div>
+        <div class="foot"><button class="btn block secondary" data-go="calificar">Ya lo retiré</button></div>
+      </div></div>
+      <div class="note">
+        <h4>Un solo dato importante: el código</h4>
+        <p>El código es lo más visible de la pantalla; el resto (hora y lugar) es apoyo. El ícono de éxito usa el color de éxito.</p>
+        <span class="ux"><b>Lección de Vello:</b> una pantalla debe tener un foco claro, no 3 o 4 elementos "gritando" al mismo volumen.</span>
+      </div>
+    </section>
+
+    <!-- 5 Calificar -->
+    <section class="shot" data-step="5" id="calificar">
+      <div class="label">5 · Calificar frescura</div>
+      <div class="phone"><div class="scr">
+        <div class="notch"></div>
+        <div class="status"><span class="num">15:20</span><span>5G ▮▮▮</span></div>
+        <div class="body">
+          <div class="appbar"><div class="logo">ñami</div></div>
+          <div class="h1">¿Qué tan fresco estaba tu silpancho?</div>
+          <p class="sub">Sabor Valluno · ayuda al próximo comprador</p>
+          <div class="rate" role="group" aria-label="Frescura de 1 a 5">
+            <button aria-pressed="false">1</button><button aria-pressed="false">2</button><button aria-pressed="false">3</button><button aria-pressed="false">4</button><button aria-pressed="true">5</button>
+          </div>
+          <div class="rate-legend"><span>Nada fresco</span><span>Recién hecho</span></div>
+          <div class="sec">¿Algo más? <span>opcional</span></div>
+          <div class="tags">
+            <span class="chip" aria-pressed="true">Estaba caliente</span>
+            <span class="chip" aria-pressed="false">Bien servido</span>
+            <span class="chip" aria-pressed="false">Igual que en el local</span>
+          </div>
+        </div>
+        <div class="foot"><button class="btn block" data-go="publicar">Enviar</button></div>
+      </div></div>
+      <div class="note">
+        <h4>La frescura se califica con números grandes, no estrellas pequeñas</h4>
+        <p>Botones de 1 a 5 de 52 px, fáciles de tocar, con el significado escrito en los extremos.</p>
+        <span class="ev"><b>Evidencia:</b> responde al miedo del comprador (frescura, 7 de 23) y al del restaurante (imagen, 5 de 9): un buen puntaje protege su reputación.</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- ======================= RESTAURANTE ======================= -->
+  <h2 class="group-t">Restaurante</h2>
+  <p class="group-s">Publicar lo que sobró en menos de un minuto y entregar con un código.</p>
+  <div class="gallery">
+
+    <!-- 6 Publicar -->
+    <section class="shot" data-step="6" id="publicar">
+      <div class="label">6 · Publicar lo que sobró</div>
+      <div class="phone"><div class="scr">
+        <div class="notch"></div>
+        <div class="status"><span class="num">14:10</span><span>5G ▮▮▮</span></div>
+        <div class="body">
+          <div class="appbar"><div class="logo">ñami</div><div class="where">Restaurante<b>Sabor Valluno</b></div></div>
+          <div class="h1">¿Qué te sobró hoy?</div>
+          <div class="seg" role="group" aria-label="Formato" id="seg">
+            <button aria-pressed="true" data-mode="plato">Plato concreto</button>
+            <button aria-pressed="false" data-mode="bolsa">Bolsa sorpresa</button>
+          </div>
+          <div class="field"><label id="lbl-name">Plato</label><div class="input" id="in-name">Silpancho</div></div>
+          <div class="grid2">
+            <div class="field"><label>Porciones</label><div class="input num">3</div></div>
+            <div class="field"><label>Preparado a las</label><div class="input num">12:30</div></div>
+          </div>
+          <div class="grid2">
+            <div class="field"><label>Precio normal</label><div class="input num">Bs 35</div></div>
+            <div class="field"><label>Precio en Ñami</label><div class="input num">Bs 14 <span class="hint">−60%</span></div></div>
+          </div>
+          <div class="field"><label>Retiro</label><div class="input num">15:00 – 16:30</div></div>
+          <div class="protect"><svg><use href="#i-shield"/></svg><span>Se muestra solo después de tu hora pico (14:30) y con porciones limitadas, para que tus clientes de siempre no esperen el descuento.</span></div>
+        </div>
+        <div class="foot"><button class="btn block" data-go="reservas">Publicar</button></div>
+      </div></div>
+      <div class="note">
+        <h4>El restaurante elige el formato y el sistema lo protege</h4>
+        <p>Pocos campos, todos con su etiqueta pegada arriba. La protección se explica en una frase, en verde (positivo).</p>
+        <span class="ev"><b>Evidencia:</b> formato dividido 5 a 4; a 5 de 9 les preocupa que sus clientes esperen el descuento; a 2 de 9, el tiempo que toma publicar.</span>
+        <span class="ux"><b>Lección de Vello:</b> proximidad (cada etiqueta junto a su campo) y bordes de campos con contraste 3:1 o más.</span>
+      </div>
+    </section>
+
+    <!-- 7 Reservas -->
+    <section class="shot" data-step="7" id="reservas">
+      <div class="label">7 · Reservas de hoy</div>
+      <div class="phone"><div class="scr">
+        <div class="notch"></div>
+        <div class="status"><span class="num">16:05</span><span>5G ▮▮▮</span></div>
+        <div class="body">
+          <div class="appbar"><div class="logo">ñami</div><div class="where">Restaurante<b>Sabor Valluno</b></div></div>
+          <div class="kpi">
+            <small>Hoy recuperaste</small>
+            <b class="num">Bs 84</b>
+            <div class="split"><span>Platos rescatados <b class="num">7</b></span><span>Comisión Ñami <b class="num">Bs 14</b></span></div>
+          </div>
+          <div class="sec">Por entregar <span class="num">2</span></div>
+          <div class="res"><div><b class="num">ÑAM-4827</b><small>Silpancho × 1 · 15:00 – 16:30</small></div><button class="btn">Entregar</button></div>
+          <div class="res"><div><b class="num">ÑAM-4831</b><small>Silpancho × 2 · 15:00 – 16:30</small></div><button class="btn">Entregar</button></div>
+          <div class="sec">Entregados <span class="num">2</span></div>
+          <div class="res"><div><b class="num">ÑAM-4790</b><small>Sopa de maní × 1</small></div><span class="btn ok"><svg width="16" height="16"><use href="#i-check"/></svg>Entregado</span></div>
+          <div class="res"><div><b class="num">ÑAM-4788</b><small>Sopa de maní × 3</small></div><span class="btn ok"><svg width="16" height="16"><use href="#i-check"/></svg>Entregado</span></div>
+        </div>
+        <div class="foot"><button class="btn block secondary" data-go="inicio">Volver al inicio del recorrido</button></div>
+      </div></div>
+      <div class="note">
+        <h4>Lo primero que ve el dueño: cuánto recuperó</h4>
+        <p>Pendientes y entregados separados en dos grupos; "Entregado" se marca con ícono y texto, no solo con color.</p>
+        <span class="ev"><b>Evidencia:</b> hoy esas sobras se las llevan los empleados (7 de 9) o se botan (4 de 9): Bs 0 para el restaurante.</span>
+        <span class="ux"><b>Lección de Vello:</b> nunca usar solo el color para un estado.</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- ======================= ESTADOS ======================= -->
+  <h2 class="group-t">Estados que no son el camino feliz</h2>
+  <p class="group-s">En el audit de Vello faltaban los estados vacío, error y "sin calificación". Aquí están diseñados desde el inicio.</p>
+  <div class="gallery">
+
+    <!-- 8 Vacio -->
+    <section class="shot" data-step="8" id="vacio">
+      <div class="label">8 · Estado vacío</div>
+      <div class="phone"><div class="scr">
+        <div class="notch"></div>
+        <div class="status"><span class="num">11:15</span><span>5G ▮▮▮</span></div>
+        <div class="body">
+          <div class="appbar"><div class="logo">ñami</div><div class="where">Retiras cerca de<b>UCB Cochabamba</b></div></div>
+          <div class="empty">
+            <div class="ill" aria-hidden="true">🍽️</div>
+            <div class="h1">Todavía no hay platos cerca</div>
+            <p class="sub">Los restaurantes de esta zona suelen publicar entre las <b class="num">14:30</b> y las <b class="num">16:00</b>, cuando termina el almuerzo.</p>
+            <div class="toggle"><span><b>Avisarme cuando publiquen</b><br><span class="sub" style="margin:0">Una notificación, sin spam</span></span><span class="switch" role="switch" aria-checked="true" aria-label="Avisarme"></span></div>
+          </div>
+        </div>
+        <nav class="tabbar" aria-label="Navegación principal">
+          <div class="on"><svg><use href="#i-home"/></svg>Inicio</div>
+          <div><svg><use href="#i-map"/></svg>Mapa</div>
+          <div><svg><use href="#i-bag"/></svg>Pedidos</div>
+          <div><svg><use href="#i-user"/></svg>Perfil</div>
+        </nav>
+      </div></div>
+      <div class="note">
+        <h4>Una pantalla vacía que explica y propone</h4>
+        <p>Dice por qué está vacía, cuándo vuelve a tener platos y qué puedes hacer mientras tanto.</p>
+        <span class="ux"><b>Lección de Vello:</b> el inventario de estados faltantes (vacío, error, cargando) fue uno de los hallazgos del audit.</span>
+      </div>
+    </section>
+
+    <!-- 9 Error de pago -->
+    <section class="shot" data-step="9" id="error">
+      <div class="label">9 · Pago no confirmado</div>
+      <div class="phone"><div class="scr">
+        <div class="notch"></div>
+        <div class="status"><span class="num">14:46</span><span>5G ▮▮▮</span></div>
+        <div class="body">
+          <button class="back" aria-label="Volver" data-go="pago"><svg><use href="#i-back"/></svg></button>
+          <div class="h1">Todavía no vemos tu pago</div>
+          <p class="sub">A veces el banco tarda un poco en confirmarlo.</p>
+          <div class="alert"><svg><use href="#i-alert"/></svg><span><b>Tu porción sigue apartada</b> por <span class="num">07:58</span> min. No pierdes tu reserva mientras revisamos.</span></div>
+          <div class="facts">
+            <div class="fact"><svg><use href="#i-box"/></svg><div><small>Pedido</small><b>Silpancho × 1 · <span class="num">Bs 14</span></b></div></div>
+            <div class="fact"><svg><use href="#i-pin"/></svg><div><small>Restaurante</small><b>Sabor Valluno</b></div></div>
+          </div>
+        </div>
+        <div class="foot">
+          <button class="btn block" data-go="codigo">Revisar de nuevo</button>
+          <button class="btn block ghost" data-go="pago">Volver al QR</button>
+        </div>
+      </div></div>
+      <div class="note">
+        <h4>Un error que no asusta y dice qué hacer</h4>
+        <p>Explica qué pasó en palabras simples, aclara que la reserva no se pierde y ofrece un solo paso principal.</p>
+        <span class="ux"><b>Lección de Vello (miércoles):</b> el flujo se prueba contra los casos que fallan, y cada uno tiene su estado en la tabla de abajo.</span>
+      </div>
+    </section>
+  </div>
+
+  <section class="states-table" aria-labelledby="st-t">
+    <h3 id="st-t">Tabla de estados de una reserva</h3>
+    <p>Mismo formato que la tabla de estados del miércoles (Vello): qué lo dispara y qué ve el usuario.</p>
+    <table>
+      <thead><tr><th>Estado</th><th>Qué lo dispara</th><th>Qué ve el comprador</th><th>Pantalla</th></tr></thead>
+      <tbody>
+        <tr><td><code>sin_platos</code></td><td>No hay publicaciones cerca</td><td>Estado vacío + horario típico + "Avisarme"</td><td>8</td></tr>
+        <tr><td><code>disponible</code></td><td>Hay porciones publicadas</td><td>Tarjeta con "Hecho hoy", porciones y Reservar</td><td>1, 2</td></tr>
+        <tr><td><code>agotado</code></td><td>Se reservó la última porción</td><td>Tarjeta gris "Agotado hoy" + "Avisarme"</td><td>1</td></tr>
+        <tr><td><code>apartado</code></td><td>Toca Reservar</td><td>QR + porción apartada 10 min</td><td>3</td></tr>
+        <tr><td><code>pago_pendiente</code></td><td>"Ya pagué" pero el banco no confirma</td><td>Aviso ámbar, la reserva se mantiene, Revisar de nuevo</td><td>9</td></tr>
+        <tr><td><code>pago_vencido</code></td><td>Pasan 10 min sin pago</td><td>La porción se libera y vuelve a estar disponible</td><td>—</td></tr>
+        <tr><td><code>confirmado</code></td><td>El banco confirma el pago</td><td>Código de retiro + hora + lugar</td><td>4</td></tr>
+        <tr><td><code>no_retirado</code></td><td>Termina la ventana de retiro</td><td>Pregunta abierta: ¿se devuelve el dinero o no?</td><td>—</td></tr>
+        <tr><td><code>entregado</code></td><td>El restaurante toca Entregar</td><td>Pedido cerrado + calificar frescura</td><td>5, 7</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    Restaurantes, platos y precios son ilustrativos. Datos: encuesta a 23 estudiantes y 9 restaurantes/cafeterías (Cochabamba, 13–14 oct 2026) y Asoban/BCB 2025 para el uso de QR.
+    Fotos: Wikimedia Commons, "Silpancho Cochabambino" de Alexander Vaca Rivas (CC BY-SA 4.0), "Pique macho Cochabambino" de EloyTigre (CC BY-SA 4.0), "Marraqueta paceña" de Meibit (CC BY-SA 3.0).<br>
+    Contraste verificado con la fórmula WCAG: botón principal 5.36:1, texto secundario 5.93:1, estados 5.4–8.4:1; controles táctiles de 44 px o más.
+  </footer>
+</div>
+
+<script>
+  var shots = Array.prototype.slice.call(document.querySelectorAll('.shot'));
+  var idx = 0;
+  var body = document.body;
+
+  function show(i) {
+    idx = (i + shots.length) % shots.length;
+    shots.forEach(function (s, k) { s.classList.toggle('active', k === idx); });
+    document.getElementById('count').textContent = (idx + 1) + ' de ' + shots.length + ' · ' + shots[idx].querySelector('.label').textContent;
+  }
+  function setMode(walk) {
+    body.classList.toggle('walk', walk);
+    document.getElementById('m-walk').setAttribute('aria-pressed', walk);
+    document.getElementById('m-grid').setAttribute('aria-pressed', !walk);
+    try { localStorage.setItem('nami-mode', walk ? 'walk' : 'grid'); } catch (e) {}
+    if (walk) show(idx);
+  }
+  document.getElementById('m-walk').onclick = function () { setMode(true); };
+  document.getElementById('m-grid').onclick = function () { setMode(false); };
+  document.getElementById('prev').onclick = function () { show(idx - 1); };
+  document.getElementById('next').onclick = function () { show(idx + 1); };
+  document.addEventListener('keydown', function (e) {
+    if (!body.classList.contains('walk')) return;
+    if (e.key === 'ArrowRight') show(idx + 1);
+    if (e.key === 'ArrowLeft') show(idx - 1);
+  });
+
+  // botones dentro de la app: van a la pantalla indicada
+  document.querySelectorAll('[data-go]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var target = document.getElementById(el.getAttribute('data-go'));
+      if (!target) return;
+      if (body.classList.contains('walk')) { show(shots.indexOf(target)); return; }
+      var ph = target.querySelector('.phone');
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      ph.classList.add('pulse');
+      setTimeout(function () { ph.classList.remove('pulse'); }, 1200);
+    });
+  });
+
+  // formato plato / bolsa
+  document.getElementById('seg').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-mode]'); if (!b) return;
+    this.querySelectorAll('[data-mode]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+    var bolsa = b.getAttribute('data-mode') === 'bolsa';
+    document.getElementById('lbl-name').textContent = bolsa ? 'Qué puede traer la bolsa' : 'Plato';
+    document.getElementById('in-name').textContent = bolsa ? 'Pan, empanadas o masitas del día' : 'Silpancho';
+  });
+
+  // QR decorativo (no escaneable)
+  (function () {
+    var n = 29, seed = 4827, out = '<rect width="29" height="29" fill="#fff"/>';
+    function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    function inF(x, y) { return (x < 8 && y < 8) || (x > n - 9 && y < 8) || (x < 8 && y > n - 9); }
+    for (var y = 0; y < n; y++) for (var x = 0; x < n; x++) if (!inF(x, y) && rnd() > 0.52) out += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="#1f1a15"/>';
+    [[0, 0], [n - 7, 0], [0, n - 7]].forEach(function (p) {
+      out += '<rect x="' + p[0] + '" y="' + p[1] + '" width="7" height="7" fill="#1f1a15"/><rect x="' + (p[0] + 1) + '" y="' + (p[1] + 1) + '" width="5" height="5" fill="#fff"/><rect x="' + (p[0] + 2) + '" y="' + (p[1] + 2) + '" width="3" height="3" fill="#1f1a15"/>';
+    });
+    out += '<rect x="11" y="11" width="7" height="7" rx="1.5" fill="#fff"/><rect x="11.8" y="11.8" width="5.4" height="5.4" rx="1.2" fill="#b8460b"/>';
+    document.getElementById('qr').innerHTML = out;
+  })();
+
+  var saved = 'walk';
+  try { saved = localStorage.getItem('nami-mode') || 'walk'; } catch (e) {}
+  show(0);
+  setMode(saved === 'walk');
+</script>
+</body>
+</html>

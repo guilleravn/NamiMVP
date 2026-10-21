@@ -1,0 +1,185 @@
+// Ñami — ERD del MVP (pegar en https://dbdiagram.io)
+// North Star: platos rescatados por semana = SUM(orders.quantity) WHERE status = 'picked_up'
+
+Project nami {
+  database_type: 'PostgreSQL'
+  Note: 'Restaurantes de Cochabamba venden comida sobrante del día con 50–70% de descuento. El comprador reserva, paga con QR y retira con un código.'
+}
+
+// ---------- Enums ----------
+
+Enum user_role {
+  buyer
+  restaurant_owner
+  admin
+}
+
+Enum restaurant_type {
+  restaurant
+  bakery
+  cafe
+  fast_food
+}
+
+Enum listing_format {
+  dish          [note: 'Plato concreto (ej. 3 porciones de silpancho)']
+  surprise_bag  [note: 'Bolsa sorpresa con lo que sobre']
+}
+
+Enum listing_status {
+  scheduled  [note: 'Creado, se muestra recién después de la hora pico']
+  live
+  sold_out
+  paused
+  expired    [note: 'Pasó la hora de retiro']
+}
+
+Enum order_status {
+  reserved         [note: 'Porción apartada 10 min mientras paga']
+  payment_pending  [note: 'Dijo "Ya pagué" pero el banco no confirma']
+  paid
+  picked_up        [note: 'Cuenta para la North Star']
+  expired          [note: 'No pagó a tiempo, la porción se libera']
+  no_show          [note: 'Pagó pero no retiró']
+  cancelled
+}
+
+Enum payment_status {
+  pending
+  confirmed
+  failed
+  refunded
+}
+
+Enum rating_tag {
+  was_warm
+  good_portion
+  same_as_in_store
+}
+
+// ---------- Tablas ----------
+
+Table zones {
+  id integer [pk, increment]
+  name varchar [not null, note: 'Ej: UCB Cochabamba']
+  city varchar [not null, default: 'Cochabamba']
+  latitude decimal(9,6)
+  longitude decimal(9,6)
+  created_at timestamp [not null, default: `now()`]
+}
+
+Table users {
+  id integer [pk, increment]
+  role user_role [not null, default: 'buyer']
+  full_name varchar [not null]
+  email varchar [not null, unique]
+  phone varchar
+  zone_id integer [ref: > zones.id, note: 'Zona donde suele retirar']
+  is_out_of_town boolean [note: 'Foráneo (segmento principal)']
+  created_at timestamp [not null, default: `now()`]
+}
+
+Table restaurants {
+  id integer [pk, increment]
+  owner_id integer [not null, ref: > users.id]
+  zone_id integer [not null, ref: > zones.id]
+  name varchar [not null]
+  type restaurant_type [not null]
+  address varchar [not null]
+  latitude decimal(9,6)
+  longitude decimal(9,6)
+  rush_hour_ends_at time [not null, note: 'Las publicaciones se muestran recién desde esta hora (ej. 14:30)']
+  qr_account_ref varchar [note: 'Cuenta para pagos con QR Simple']
+  fee_per_dish decimal(6,2) [not null, default: 2.00, note: 'Comisión de Ñami: Bs 2 por plato vendido']
+  fee_free_until date [note: 'Primer mes sin comisión']
+  is_active boolean [not null, default: true]
+  created_at timestamp [not null, default: `now()`]
+}
+
+Table listings {
+  id integer [pk, increment]
+  restaurant_id integer [not null, ref: > restaurants.id]
+  format listing_format [not null]
+  title varchar [not null, note: 'Ej: Silpancho / Bolsa de panadería']
+  description text
+  photo_url varchar
+  regular_price decimal(8,2) [not null, note: 'Precio normal, ej. Bs 35']
+  price decimal(8,2) [not null, note: 'Precio en Ñami, ej. Bs 14']
+  portions_total integer [not null]
+  portions_left integer [not null]
+  prepared_at timestamp [not null, note: '"Hecho hoy 12:30": responde al miedo de frescura']
+  visible_from timestamp [not null, note: 'Después de la hora pico del restaurante']
+  pickup_start timestamp [not null]
+  pickup_end timestamp [not null]
+  status listing_status [not null, default: 'scheduled']
+  created_at timestamp [not null, default: `now()`]
+
+  indexes {
+    (restaurant_id, status)
+    (status, visible_from)
+  }
+
+  Note: 'Una publicación de comida sobrante de un día. portions_left baja con cada reserva.'
+}
+
+Table orders {
+  id integer [pk, increment]
+  buyer_id integer [not null, ref: > users.id]
+  listing_id integer [not null, ref: > listings.id]
+  quantity integer [not null, default: 1]
+  unit_price decimal(8,2) [not null, note: 'Precio al momento de reservar']
+  total decimal(8,2) [not null]
+  fee_amount decimal(8,2) [not null, note: 'fee_per_dish × quantity (0 si está en el mes gratis)']
+  pickup_code varchar [not null, unique, note: 'Ej: ÑAM-4827']
+  status order_status [not null, default: 'reserved']
+  reserved_until timestamp [not null, note: 'reserved_at + 10 min']
+  reserved_at timestamp [not null, default: `now()`]
+  paid_at timestamp
+  picked_up_at timestamp
+
+  indexes {
+    (listing_id, status)
+    (buyer_id, reserved_at)
+    (status, picked_up_at) [note: 'Para calcular la North Star por semana']
+  }
+}
+
+Table payments {
+  id integer [pk, increment]
+  order_id integer [not null, ref: > orders.id]
+  method varchar [not null, default: 'qr_simple']
+  amount decimal(8,2) [not null]
+  status payment_status [not null, default: 'pending']
+  bank_reference varchar [note: 'Referencia que devuelve el banco']
+  created_at timestamp [not null, default: `now()`]
+  confirmed_at timestamp
+
+  Note: 'Puede haber varios intentos por pedido (ej. uno falla y el siguiente se confirma).'
+}
+
+Table ratings {
+  id integer [pk, increment]
+  order_id integer [not null, unique, ref: - orders.id, note: 'Una calificación por pedido retirado']
+  freshness_score smallint [not null, note: '1 = nada fresco … 5 = recién hecho']
+  created_at timestamp [not null, default: `now()`]
+}
+
+Table rating_tags {
+  rating_id integer [not null, ref: > ratings.id]
+  tag rating_tag [not null]
+
+  indexes {
+    (rating_id, tag) [pk]
+  }
+}
+
+Table notification_subscriptions {
+  id integer [pk, increment]
+  user_id integer [not null, ref: > users.id]
+  zone_id integer [ref: > zones.id, note: '"Avisarme cuando publiquen" en una zona']
+  restaurant_id integer [ref: > restaurants.id, note: '"Avisarme" de un local agotado']
+  is_active boolean [not null, default: true]
+  created_at timestamp [not null, default: `now()`]
+
+  Note: 'Debe tener zone_id o restaurant_id.'
+}

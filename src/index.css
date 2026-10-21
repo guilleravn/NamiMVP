@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-page font-sans text-sm text-primary antialiased;
+  }
+
+  /* Visible focus on every interactive element: 3 px, action color. */
+  :focus-visible {
+    outline: 3px solid theme('outlineColor.focus');
+    outline-offset: 2px;
+  }
+
+  /* Prices and times line up. */
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
