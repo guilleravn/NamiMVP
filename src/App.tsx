@@ -8,6 +8,11 @@ import { PickupCode } from './routes/buyer/PickupCode';
 import { Rate } from './routes/buyer/Rate';
 import { Landing } from './routes/Landing';
 import { MissingPage } from './routes/MissingPage';
+import { ListingForm } from './routes/restaurant/ListingForm';
+import { RestaurantLayout } from './routes/restaurant/RestaurantLayout';
+import { RestaurantOrders } from './routes/restaurant/RestaurantOrders';
+import { Stats } from './routes/restaurant/Stats';
+import { TodayListings } from './routes/restaurant/TodayListings';
 import { StoreProvider } from './store/StoreProvider';
 
 export function App() {
@@ -23,6 +28,13 @@ export function App() {
             <Route path="order/:id" element={<PickupCode />} />
             <Route path="order/:id/rate" element={<Rate />} />
             <Route path="orders" element={<MyOrders />} />
+          </Route>
+          <Route path="/restaurant" element={<RestaurantLayout />}>
+            <Route index element={<TodayListings />} />
+            <Route path="new" element={<ListingForm />} />
+            <Route path="listing/:id/edit" element={<ListingForm />} />
+            <Route path="orders" element={<RestaurantOrders />} />
+            <Route path="stats" element={<Stats />} />
           </Route>
           <Route
             path="*"
