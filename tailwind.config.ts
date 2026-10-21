@@ -19,6 +19,7 @@ const config: Config = {
       'action-hover': t['color-action-hover'],
       'action-soft': t['color-action-soft'],
       inverse: t['color-text'],
+      success: t['color-success'],
       'status-fresh': t['color-status-fresh-bg'],
       'status-low': t['color-status-low-bg'],
       'status-out': t['color-status-out-bg'],

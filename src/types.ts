@@ -103,11 +103,12 @@ interface OrderBase {
   reservedUntil: string;
 }
 
+export type UnpaidOrder = OrderBase & { status: 'reserved' | 'payment_pending' | 'expired' | 'cancelled' };
+export type PaidOrder = OrderBase & { status: 'paid' | 'no_show'; paidAt: string };
+export type PickedUpOrder = OrderBase & { status: 'picked_up'; paidAt: string; pickedUpAt: string };
+
 /** paidAt / pickedUpAt exist exactly on the statuses that have them. */
-export type Order =
-  | (OrderBase & { status: 'reserved' | 'payment_pending' | 'expired' | 'cancelled' })
-  | (OrderBase & { status: 'paid' | 'no_show'; paidAt: string })
-  | (OrderBase & { status: 'picked_up'; paidAt: string; pickedUpAt: string });
+export type Order = UnpaidOrder | PaidOrder | PickedUpOrder;
 
 export type OrderStatus = Order['status'];
 
